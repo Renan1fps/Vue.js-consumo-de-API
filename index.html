@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,19 +8,38 @@
     <title>Document</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
+
 <body>
     <div id="app">
         <h1>Hello {{name}}</h1>
+
+        <button @click="showName">botão</button><!--para eventos-->
+        <div v-for="user in users" >
+            <h2>{{user}}</h2><!--mostrar dados que vem do Vue-->
+        </div>
+        <div v-for="people in peoples" @click="showName(people.name)"> <!--para realizar loops-->
+            <h2>{{people.name}} </h2>
+        </div>
     </div>
+
+
+
     <script>
-        var app= Vue.createApp({
-            data(){
-                return{
-                    name: "Renan"
+        var app = Vue.createApp({ //criar um prjeto vue
+            data() {
+                return {
+                    name: 'Cataline',
+                    users: ["Renan", "lucas", "eren"],
+                    peoples: [{ name: "Eren" }, { name: "Mikasa" }, { name: "Levi" }]
+                }
+            }, methods: { //criar funções
+                showName(name) {
+                    alert(name)
                 }
             }
         })
-        app.mount("#app")
+        var vm = app.mount("#app") //selecionar uma tag para montar meu app Vue.js
     </script>
 </body>
+
 </html>
