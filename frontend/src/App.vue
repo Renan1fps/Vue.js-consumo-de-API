@@ -16,7 +16,7 @@
             <li v-for="user in users" :key="user.id">
               <p>{{ user.name }}</p>
               <small>{{ user.email }} </small>
-              <a class="destroy"></a>
+              <a class="destroy" @click="deleteUser(user.id)"></a>
             </li>
           </ul>
         </h5>
@@ -28,12 +28,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import axios from './utils/axios'
+import {User} from './models/User'
 
-interface User {
-  id: string
-  email: string
-  name: string
-}
+
 
 export default defineComponent({
   data() {
@@ -65,6 +62,15 @@ export default defineComponent({
         this.form.email = ''
       } catch (erro) {
         console.warn(erro)
+      }
+    },
+    async deleteUser(id: string) {
+      try {
+        await axios.delete(`/users/${id}`)
+        const userIndex = this.users.findIndex((user) => user.id === id)
+        this.users.splice(userIndex, 1)
+      } catch (error) {
+        console.warn(error)
       }
     },
   },
