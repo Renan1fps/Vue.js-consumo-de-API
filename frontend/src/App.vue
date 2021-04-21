@@ -2,6 +2,14 @@
   <div class="users">
     <div class="container">
       <section>
+        <h5 class="title">Novo usuário</h5>
+        <form @submit.prevent="createUser">
+          <input type="text" placeholder="Nome" v-model="form.name" />
+          <input type="text" placeholder="E-mail" v-model="form.email" />
+          <button type="submit">Adicionar</button>
+        </form>
+      </section>
+      <section>
         <h5 class="title">
           lista de usuários
           <ul>
@@ -31,6 +39,10 @@ export default defineComponent({
   data() {
     return {
       users: [] as User[],
+      form: {
+        name: '',
+        email: '',
+      },
     }
   },
   created() {
@@ -41,6 +53,16 @@ export default defineComponent({
       try {
         const { data } = await axios.get('/users')
         this.users = data
+      } catch (erro) {
+        console.warn(erro)
+      }
+    },
+    async createUser() {
+      try {
+        const { data } = await axios.post('/users', this.form)
+        this.users.push(data)
+        this.form.name = ''
+        this.form.email = ''
       } catch (erro) {
         console.warn(erro)
       }
